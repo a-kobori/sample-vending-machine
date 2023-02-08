@@ -79,6 +79,43 @@ class Coins
         return false;
     }
 
+    public function amount(): int
+    {
+        return array_reduce($this->values, function(int $carry, Coin $coin) {
+            return $carry + $coin->value;
+        }, 0);
+    }
+
+    public static function fromValue(int $_value): Coins
+    {
+        $value = $_value;
+        $coinArray = [];
+        while ($value !== 0) {
+            var_dump($value);
+            if ($value > Coin::FIVE_HUNDRED) {
+                $coinArray[] = Coin::FIVE_HUNDRED;
+                $value -= Coin::FIVE_HUNDRED->value;
+                continue;
+            }
+            if ($value > Coin::HUNDRED) {
+                $coinArray[] = Coin::HUNDRED;
+                $value -= Coin::HUNDRED->value;
+                continue;
+            }
+            if ($value > Coin::FIFTY) {
+                $coinArray[] = Coin::FIFTY;
+                $value -= Coin::FIFTY->value;
+                continue;
+            }
+            if ($value > Coin::TEN) {
+                $coinArray[] = Coin::TEN;
+                $value -= Coin::TEN->value;
+                continue;
+            }
+        }
+        return new Coins($coinArray);
+    }
+
     public function toString(): string
     {
         if (empty($this->values)) {
@@ -102,16 +139,6 @@ class Coins
     private function length(): int
     {
         return count($this->values);
-    }
-
-    private function amount(): int
-    {
-        $result = 0;
-        /** @var Coin */
-        foreach ($this->values as $coin) {
-            $result += $coin->value;
-        }
-        return $result;
     }
 
     private function getAllCombinations(): array

@@ -20,13 +20,10 @@ class VendingMachine
 
   public function inputMenu(Menu $menu): Coins
   {
-    // キレイに支払える場合を検討
-    $paidCoins = $this->inputedCoins->calculateNoChargeCombination($menu->value);
-    if ($paidCoins) {
-      // 必要な分だけ差っ引いて返却する
-      $this->inputedCoins->subtract($paidCoins);
-      return $this->inputedCoins;
-    }
-    return Coins::empty();
+    // 金額計算
+    $changeValue = $this->inputedCoins->amount() - $menu->value;
+    $change = Coins::fromValue($changeValue);
+    var_dump("change: " . $change);
+    return $change;
   }
 }
