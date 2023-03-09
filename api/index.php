@@ -3,64 +3,89 @@
  * 【修正不要】
  * リクエストのメソッド、URIに応じてファイルを呼び出し分けます
  */
-    $requestMethod = strtoupper($_SERVER['REQUEST_METHOD']);
-    $requestUri = $_SERVER['REQUEST_URI'];
-    $id = _getRequestId($requestUri);
+    // autoloadを呼び、クラスを読み込む
+    require_once __DIR__ . '/vendor/autoload.php';
 
-    // プロダクト直下が呼び出された場合
-    _checkIndex($requestMethod, $requestUri);
+    // リクエストのメソッド、URIを取得
+    $requestMethod = strtoupper($_SERVER['REQUEST_METHOD']);
+    $requestUri = _getRequestUri($_SERVER['REQUEST_URI']);
+
+    // ルートの場合もしくはapiディレクトリ以外を呼び出していないかチェック
+    _checkUriAndMethod($requestMethod, $requestUri);
 
     // PUT, DELETEメソッドでIDが指定されていない場合
-    _checkPutOrDeleteWithId($requestMethod, $id);
+    _checkPutOrDeleteWithId($requestMethod);
 
     // 呼び出すファイルを特定
-    $fileName = _getFileName($requestMethod, $id);
+    $fileName = _getFileName($requestMethod);
     $fileFullPath = __DIR__ . $requestUri . $fileName;
 
     // ファイルを実行
     _runFile($fileFullPath);
+    exit;
     
+
+    function _getRequestUri(string $requestUri): string
+    {
+        $id = _getRequestId($requestUri);
+        if ($id > 0) {
+            // $_REQUESTにidをセット
+            $_REQUEST['id'] = $id;
+            return str_replace(strVal($id), "", $requestUri);
+        }
+        return $requestUri;
+    }
+
+
     function _getRequestId(string $requestUri): int
     {
         $requestParts = explode('/', $requestUri);
-        if (is_int(end($requestParts))) {
-            return intVal(end($requestParts));
+        if (is_numeric(end($requestParts))) {
+            
+            $id = intVal(end($requestParts));
+            return $id;
         }
         return -1;
     }
 
-    function _checkIndex($requestMethod, $requestUri)
+    function _checkUriAndMethod($requestMethod, $requestUri)
     {
         if ($requestMethod === "GET" && $requestUri === "/") {
             echo "Hello World! いまあなたは/api/index.phpを呼んでいます";
             exit;
         }
+
+        $requestParts = explode('/', $requestUri);
+        if ($requestParts[1] !== "api") {
+            http_response_code(400);
+            echo "API経由で呼び出す処理は、/api/以下に配置してください。";
+            exit;
+        }
     }
 
-    function _checkPutOrDeleteWithId($requestMethod, $id)
+    function _checkPutOrDeleteWithId($requestMethod)
     {
         if ($requestMethod === "PUT" || $requestMethod === "DELETE") {
-            if ($id === -1) {
-                header('HTTP/1.0 400 Bad Request');
+            if ($_REQUEST['id'] <= 0) {
+                http_response_code(400);
                 echo "PUT, DELETEメソッドはIDを指定してください";
                 exit;
             }
         }
     }
 
-    function _getFileName($requestMethod, $id): string
+    function _getFileName($requestMethod): string
     {
-        $fileName = "";
         switch ($requestMethod) {
             case "GET":
-                return $id > 0 ? 'detail.php' : 'index.php';
+                return $_REQUEST['id'] > 0 ? 'detail.php' : 'index.php';
             case "POST":
             case "PUT":
                 return "update.php";
             case "DELETE":
                 return "delete.php";
             default:
-                header('HTTP/1.0 405 Method Not Allowed');
+                http_response_code(405);
                 echo "GET, POST, PUT, DELETEのいずれかのメソッドを指定してください";
                 exit;
         }
@@ -72,7 +97,7 @@
         if ($fileFullPath && file_exists($fileFullPath)) {
             require_once $fileFullPath;
         } else {
-            header('HTTP/1.0 404 Not Found');
+            http_response_code(404);
             echo('処理対象ファイルがありません：' . $fileFullPath);
         }
     }

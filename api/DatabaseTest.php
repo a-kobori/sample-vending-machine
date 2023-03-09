@@ -1,3 +1,0 @@
-<?php
-
-$pdo = Database::getPdo();
