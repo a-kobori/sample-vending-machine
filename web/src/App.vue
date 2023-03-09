@@ -1,10 +1,6 @@
 <script setup lang="ts">
 import HelloWorld from './components/HelloWorld.vue'
 import TheWelcome from './components/TheWelcome.vue'
-import axios from 'axios'
-
-const result = await axios.get('http://localhost:3202/src/Sample.php');
-console.log(result);
 </script>
 
 <template>
