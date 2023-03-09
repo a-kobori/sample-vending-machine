@@ -1,3 +1,5 @@
+#/bin/bash
+
 # (イメージをビルドしたあと)イメージからコンテナを起動する
 docker-compose up -d --build
 
@@ -6,3 +8,6 @@ docker-compose exec api composer install
 
 # JavaScriptのnpmライブラリをインストール
 docker-compose exec web npm install
+
+# いったんコンテナを削除
+docker-compose down

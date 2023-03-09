@@ -16,7 +16,7 @@ class Database
 
     private function __construct()
     {
-        $dsn = 'mysql:dbname=test;host=db;charset=utf8';
+        $dsn = 'mysql:dbname=codmon;host=db;charset=utf8';
         $user = 'root';
         $password = 'root';
         $options = [

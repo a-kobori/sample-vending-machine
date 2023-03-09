@@ -24,6 +24,7 @@ services:
       dockerfile: ./docker/Dockerfile
     volumes:
       - ./db/data:/var/lib/mysql
+      - ./db/initial_sql:/docker-entrypoint-initdb.d
     ports:
       - "3203:3306"
     environment:
