@@ -10,5 +10,5 @@ $training = new Training("あなたの名前");
 // TrainingインスタンスのgetSampleMessageメソッドを呼び出す
 $message = $training->getSampleMessage();
 
-// 配列にして、JSON化してから出力
+// 結果をそのまま出力
 echo $message;
