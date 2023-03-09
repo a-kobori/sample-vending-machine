@@ -6,6 +6,7 @@ services:
       dockerfile: ./docker/Dockerfile
     volumes:
       - ./web:/usr/src/app
+      - /usr/src/app/node_modules
     ports:
       - "3201:5173"
   api:
@@ -14,6 +15,7 @@ services:
       dockerfile: ./docker/Dockerfile
     volumes:
       - ./api:/var/www/html
+      - /var/www/html/node_modules
     ports:
       - "3202:80"
   db:
