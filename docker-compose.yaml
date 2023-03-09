@@ -1,0 +1,29 @@
+version: "3.7"
+services:
+  web:
+    build:
+      context: ./frontend
+      dockerfile: ./docker/Dockerfile
+    volumes:
+      - ./frontend:/usr/src/app
+    ports:
+      - "3201:5173"
+  api:
+    build:
+      context: ./backend
+      dockerfile: ./docker/Dockerfile
+    privileged: true
+    volumes:
+      - ./backend:/var/www/html
+    ports:
+      - "3202:80"
+  db:
+    build:
+      context: ./mysql
+      dockerfile: ./docker/Dockerfile
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+    ports:
+      - "3203:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
