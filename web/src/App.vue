@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import Sample from './components/Sample.vue'
+import Drinks from './components/Drinks.vue'
 </script>
 
 <template>
-  <Sample />
+  <Drinks />
 </template>
 
 <!--

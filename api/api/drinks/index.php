@@ -19,4 +19,4 @@ foreach($result as $element){
   ];
 }
 
-echo json_encode($array);
+echo json_encode($result);
