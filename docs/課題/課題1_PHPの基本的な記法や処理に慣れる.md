@@ -14,6 +14,19 @@ cd ~/newcomer-training/api
 composer test-training
 ```
 
+次のような結果が出力されれば成功です。
+
+```shell
+> vendor/bin/phpunit ./tests/context/sample/TrainingTest.php
+PHPUnit 9.5.28 by Sebastian Bergmann and contributors.
+
+................                                                  16 / 16 (100%)
+
+Time: 00:00.038, Memory: 4.00 MB
+
+OK (16 tests, 16 assertions)
+```
+
 ## 応用
 
 実装に利用した下記2つのファイルをそのまま使い、新しい関数、テストを作成してください。
