@@ -1,5 +1,5 @@
 # すべてのリクエストをindex.phpに転送
-DirectorySlash Off
+DirectorySlash On
 
 RewriteEngine On
 RewriteRule ^(.*)$ index.php [QSA,L]

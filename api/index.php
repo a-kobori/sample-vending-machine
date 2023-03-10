@@ -78,7 +78,12 @@
     {
         switch ($requestMethod) {
             case "GET":
-                return $_REQUEST['id'] > 0 ? 'detail.php' : 'index.php';
+                if (array_key_exists('id', $_REQUEST)) {
+                    if ($_REQUEST['id'] > 0) {
+                        return 'detail.php';
+                    }
+                }
+                return 'index.php';
             case "POST":
             case "PUT":
                 return "update.php";
