@@ -1,5 +1,7 @@
 # コドモン新卒エンジニア研修2023 Webアプリケーション開発
 
+[23新卒研修カリキュラム_dev](https://docs.google.com/spreadsheets/d/1mdbPnjNIV4sgnj9IAuPpccT-WicVHmWzSJ0cS7-nofU/edit#gid=1013324690)
+
 ## 研修の準備
 
 [インストール方法](./docs/インストール方法.md)より、インストールを行ってください。

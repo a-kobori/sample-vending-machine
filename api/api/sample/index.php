@@ -5,10 +5,10 @@
 use Api\Context\Sample\Training;
 
 // 新しいインスタンスを作成
-$training = new Training("あなたの名前");
+$training = new Training();
 
 // TrainingインスタンスのgetSampleMessageメソッドを呼び出す
-$message = $training->getSampleMessage();
+$message = $training->getSampleMessage("あなたの名前");
 
 // 結果をそのまま出力
 echo $message;
