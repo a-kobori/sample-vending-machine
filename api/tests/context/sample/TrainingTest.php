@@ -25,8 +25,9 @@ class TrainingTest extends TestCase
 
     public function provider_fizzBuzz()
     {
+        // test_fizzBuzz関数の$number, $expectedに渡す値を定義している
         return [
-          "1のときは1を返す" => [1, "1"],
+          "1のときは1を返す" => [1, "1"], // ex. $number = 1, $expected = "1"
           "2のときは2を返す" => [2, "2"],
           "3のときはFizzを返す" => [3, "Fizz"],
           "4のときは4を返す" => [4, "4"],
